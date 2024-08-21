@@ -38,24 +38,24 @@ extern std::vector<Token> tokens;
 using namespace rttr;
 
 enum class TokenType {
-    TOK_ERR = -2, // ´íÎó
-    TOK_EOF = -1, // ÎÄ¼ş½áÊø
-    TOK_KEYWORD = 0, // ±£Áô×Ö
-    TOK_BUILTIN_TYPE, // ÄÚÖÃÀàĞÍ ±ÈÈçint
-    TOK_IDENTIFIER, // ±êÊ¶·û
-    TOK_INTEGER_LITERAL, // int×ÖÃæÁ¿
-    TOK_FLOAT_LITERAL, // ¸¡µã×ÖÃæÁ¿
-    TOK_STRING_LITERAL, // ×Ö·û´®×ÖÃæÁ¿
-    TOK_CHARACTER_LITERAL, // ×Ö·û×ÖÃæÁ¿
-    TOK_BINARY_OP, // ¶şÔªÔËËã·û
+    TOK_ERR = -2, // é”™è¯¯
+    TOK_EOF = -1, // æ–‡ä»¶ç»“æŸ
+    TOK_KEYWORD = 0, // ä¿ç•™å­—
+    TOK_BUILTIN_TYPE, // å†…ç½®ç±»å‹ æ¯”å¦‚int
+    TOK_IDENTIFIER, // æ ‡è¯†ç¬¦
+    TOK_INTEGER_LITERAL, // intå­—é¢é‡
+    TOK_FLOAT_LITERAL, // æµ®ç‚¹å­—é¢é‡
+    TOK_STRING_LITERAL, // å­—ç¬¦ä¸²å­—é¢é‡
+    TOK_CHARACTER_LITERAL, // å­—ç¬¦å­—é¢é‡
+    TOK_BINARY_OP, // äºŒå…ƒè¿ç®—ç¬¦
     TOK_SMALL_BRACKET, // ()
     TOK_SQUARE_BRACKET, // []
     TOK_CURLY_BRACE, // {}
-    TOK_COMMA, // , ¶ººÅ
+    TOK_COMMA, // , é€—å·
 };
 
 enum class TokenError {
-    Expected = -1, // ĞèÒªÊ²Ã´
+    Expected = -1, // éœ€è¦ä»€ä¹ˆ
 };
 
 RTTR_REGISTRATION
@@ -113,10 +113,17 @@ struct IntegerAST : public AST {
 struct VariableAST {
 };
 
+struct StatementAST {
+};
+
+struct BlockAST {
+    std::vector<AST> statements;
+};
+
 struct FunctionAST : public AST {
-    Token result = Token {}; // ·µ»ØÖµÀàĞÍ
-    std::string name; // º¯ÊıÃû
-    std::vector<std::pair<Token, Token>> args; // ²ÎÊı±í
+    Token result = Token {}; // è¿”å›å€¼ç±»å‹
+    std::string name; // å‡½æ•°å
+    std::vector<std::pair<Token, Token>> args; // å‚æ•°è¡¨
 
     llvm::Value* codegen() override;
 

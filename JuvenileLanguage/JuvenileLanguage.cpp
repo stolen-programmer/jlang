@@ -240,7 +240,7 @@ Token next_token()
             return { TokenType::TOK_BINARY_OP, content, source_location };
         }
 
-        std::set<char> bracekt = { '(', ')', '[', ']', '{', '}' };
+        std::set<char> bracket = { '(', ')', '[', ']', '{', '}' };
         std::map<char, TokenType> typeMap = {
             { '(', TokenType::TOK_SMALL_BRACKET },
             { ')', TokenType::TOK_SMALL_BRACKET },
@@ -250,7 +250,7 @@ Token next_token()
             { '}', TokenType::TOK_CURLY_BRACE },
         };
         // 括号
-        if (bracekt.contains(curr)) {
+        if (bracket.contains(curr)) {
             source_location.end_col = col;
             source_location.end_row = row;
 
@@ -266,12 +266,12 @@ void rollback(const Token& token)
     tokens.insert(tokens.begin(), token);
 }
 
-bool match(std::string_view token)
+bool match(const std::string_view token)
 {
     return next_token().content == token;
 }
 
-bool matchToken(Token& token, std::string_view content)
+bool matchToken(const Token& token, const std::string_view content)
 {
     return token.content == content;
 }
@@ -382,6 +382,16 @@ int main()
         case TokenType::TOK_CHARACTER_LITERAL:
             break;
         case TokenType::TOK_BINARY_OP:
+            break;
+        case TokenType::TOK_BUILTIN_TYPE:
+            break;
+        case TokenType::TOK_SMALL_BRACKET:
+            break;
+        case TokenType::TOK_SQUARE_BRACKET:
+            break;
+        case TokenType::TOK_CURLY_BRACE:
+            break;
+        case TokenType::TOK_COMMA:
             break;
         }
     }
