@@ -35,6 +35,22 @@ extern std::unique_ptr<llvm::IRBuilder<>> Builder;
 extern std::map<std::string, llvm::Value*> NamedValues;
 extern std::vector<Token> tokens;
 
+std::set<std::string> keywords = {
+    "def",
+    "extern",
+    "if",
+    "let"
+};
+
+std::set<std::string> builtin = {
+    "int",
+    "char"
+};
+
+std::set<std::string> binary_op = {
+    "+", "-", "*", "/", "%", "="
+};
+
 using namespace rttr;
 
 enum class TokenType {
@@ -52,6 +68,7 @@ enum class TokenType {
     TOK_SQUARE_BRACKET, // []
     TOK_CURLY_BRACE, // {}
     TOK_COMMA, // , 逗号
+    TOK_ASSIGN, // = 赋值
 };
 
 enum class TokenError {
@@ -74,7 +91,8 @@ RTTR_REGISTRATION
             value("(tok_small_bracket)", TokenType::TOK_SMALL_BRACKET),
             value("[tok_square_bracket]", TokenType::TOK_SQUARE_BRACKET),
             value("{tok_curly_brace}", TokenType::TOK_CURLY_BRACE),
-            value("tok_comma", TokenType::TOK_COMMA) //
+            value("tok_comma", TokenType::TOK_COMMA),
+            value("tok_assign", TokenType::TOK_ASSIGN) //
         );
 
     registration::enumeration<TokenError>("TokenError") //
@@ -110,7 +128,13 @@ struct IntegerAST : public AST {
     llvm::Value* codegen() override;
 };
 
-struct VariableAST {
+struct VariableAST : AST {
+
+    std::string name;
+    std::unique_ptr<AST> expr = nullptr;
+    llvm::Function* ctx = nullptr;
+
+    llvm::Value* codegen() override;
 };
 
 struct StatementAST {

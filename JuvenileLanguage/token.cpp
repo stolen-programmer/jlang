@@ -11,6 +11,10 @@ llvm::Value* IntegerAST::codegen()
     return llvm::ConstantInt::get(*TheContext, llvm::APInt(sizeof(uint32_t), value));
 }
 
+llvm::Value* VariableAST::codegen()
+{
+}
+
 llvm::Value* FunctionAST::codegen()
 {
     std::vector<llvm::Type*> type_args;
